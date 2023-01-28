@@ -94,22 +94,123 @@ div.comicGreen {
 .divTableHeading { display: table-header-group;}
 .divTableFoot { display: table-footer-group;}
 .divTableBody { display: table-row-group;}
+
+.button-49,
+.button-49:after {
+  width: 150px;
+  height: 56px;
+  line-height: 58px;
+  font-size: 20px;
+  font-family: 'Bebas Neue', sans-serif;
+  background: linear-gradient(45deg, transparent 5%, #FF013C 5%);
+  border: 0;
+  color: #fff;
+  letter-spacing: 3px;
+  box-shadow: 6px 0px 0px #00E6F6;
+  outline: transparent;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-49:after {
+  --slice-0: inset(50% 50% 50% 50%);
+  --slice-1: inset(80% -6px 0 0);
+  --slice-2: inset(50% -6px 30% 0);
+  --slice-3: inset(10% -6px 85% 0);
+  --slice-4: inset(40% -6px 43% 0);
+  --slice-5: inset(80% -6px 5% 0);
+  
+  content: 'Скопіювати в буфер';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 3%, #00E6F6 3%, #00E6F6 5%, #FF013C 5%);
+  text-shadow: -3px -3px 0px #F8F005, 3px 3px 0px #00E6F6;
+  clip-path: var(--slice-0);
+}
+
+.button-49:hover:after {
+  animation: 1s glitch;
+  animation-timing-function: steps(2, end);
+}
+
+@keyframes glitch {
+  0% {
+    clip-path: var(--slice-1);
+    transform: translate(-20px, -10px);
+  }
+  10% {
+    clip-path: var(--slice-3);
+    transform: translate(10px, 10px);
+  }
+  20% {
+    clip-path: var(--slice-1);
+    transform: translate(-10px, 10px);
+  }
+  30% {
+    clip-path: var(--slice-3);
+    transform: translate(0px, 5px);
+  }
+  40% {
+    clip-path: var(--slice-2);
+    transform: translate(-5px, 0px);
+  }
+  50% {
+    clip-path: var(--slice-3);
+    transform: translate(5px, 0px);
+  }
+  60% {
+    clip-path: var(--slice-4);
+    transform: translate(5px, 10px);
+  }
+  70% {
+    clip-path: var(--slice-2);
+    transform: translate(-10px, 10px);
+  }
+  80% {
+    clip-path: var(--slice-5);
+    transform: translate(20px, -10px);
+  }
+  90% {
+    clip-path: var(--slice-1);
+    transform: translate(-10px, 0px);
+  }
+  100% {
+    clip-path: var(--slice-1);
+    transform: translate(0);
+  }
+}
 </style>
 <script  type="text/javascript">
 		function CopyToClipboard(containerid) {
-		  if (document.selection) {
-		    var range = document.body.createTextRange();
-		    range.moveToElementText(document.getElementById(containerid));
-		    range.select().createTextRange();
-		    document.execCommand("copy");
-		  } else if (window.getSelection) {
-		    var range = document.createRange();
-		    range.selectNode(document.getElementById(containerid));
-		    window.getSelection().addRange(range);
-		    document.execCommand("copy");
-		    //alert("Text has been copied, now paste in the text-area")
-		  }
+		    if (window.getSelection) {
+		        if (window.getSelection().empty) { // Chrome
+		            window.getSelection().empty();
+		        } else if (window.getSelection().removeAllRanges) { // Firefox
+		            window.getSelection().removeAllRanges();
+		        }
+		    } else if (document.selection) { // IE?
+		        document.selection.empty();
+		    }
+
+		    if (document.selection) {
+		        var range = document.body.createTextRange();
+		        range.moveToElementText(document.getElementById(containerid));
+		        range.select().createTextRange();
+		        document.execCommand("copy");
+		    } else if (window.getSelection) {
+		        var range = document.createRange();
+		        range.selectNode(document.getElementById(containerid));
+		        window.getSelection().addRange(range);
+		        document.execCommand("copy");
+		    }
 		}
+
 		function startVse(){
 			document.getElementById('pibKomy').value = "";
 			document.getElementById('pibKogo').value = "";
@@ -125,12 +226,12 @@ div.comicGreen {
 		function startVidminkiv(typVidminky){
 			var mas = document.getElementById('pib').value.split(String.fromCharCode(10));
 			//var gender_mas = document.getElementsByName('gender');
-				 if(document.getElementById('male').checked) {
-			 		gender_type = document.getElementById('male').value;
-			 	}
-			 	if(document.getElementById('female').checked) {
-			 		gender_type = document.getElementById('female').value;
-			 	}
+				 if(document.getElementById('gender').checked) {
+			 		gender_type = "male";
+			 	} else {gender_type = "female";}
+			 	//if(document.getElementById('female').checked) {
+			 		//gender_type = document.getElementById('female').value;
+			 	//}
       //alert('Выбран '+gender_type+' radiobutton');
 			for(var i=0;i<mas.length;i++){
 				var masdd = mas[i].split(' ');
@@ -194,15 +295,23 @@ shevchenko.inVocative   // Провідміняти в кличному відм
 <div class="row">
 	<div class="column full center">
 		<h1  style="margin-bottom: 5px;font-size: 40px;">Відмінювання українських антропонімів</h1>
-		<div class="form-group"></label><label class="mr-2" title="Виберіть рід антропонімів"><input type="radio" id="male" name="gender" value="male" checked> Чоловічий <!----></label><label class="mr-2" title="Виберіть рід антропонімів"><input type="radio" id="female" name="gender" value="female"> Жіночий <!----></label><!--]--></div>
-		<p style="margin-top:20; font-size: 22px">Перед початком додайте список для відмінювання (називний)</p>
 		<p style="margin-top:20; font-size: 18px">@author <b>Юрій Зося</b> html+javascript+css YuraZosia@gmail.com</p>
 		<p style="margin-top:20; font-size: 18px">@author <b>Oleksandr Tolochko</b> shevchenko.js tooleks@gmail.com</p>
 	</div>
 </div>
 <div class="row">
-	<div class="column full center">
-		<a id="start" href="#" onClick='startVse()' class="edit" style="display: inline-block;margin-bottom: 40px; text-decoration: none; transition: all 0.16s ease 0s; border-style: solid; cursor: pointer; background-color: rgb(23, 23, 23); color: rgb(255, 255, 255); border-color: rgb(23, 23, 23); border-width: 2px; border-radius: 0px; padding: 13px 28px; line-height: 21px; text-transform: uppercase; font-weight: 600; font-size: 14px; letter-spacing: 3px;" data-hover-color="#ffffff" data-hover-bordercolor="#ff8733" onmouseover="this.setAttribute('data-style',this.style.cssText);if(this.getAttribute('data-hover-bordercolor')) this.style.borderColor=this.getAttribute('data-hover-bordercolor');if(this.getAttribute('data-hover-bgcolor')) this.style.backgroundColor=this.getAttribute('data-hover-bgcolor');if(this.getAttribute('data-hover-color')) this.style.color=this.getAttribute('data-hover-color');" onmouseout="this.setAttribute('style',this.getAttribute('data-style'));this.removeAttribute('data-style')" data-hover-bgcolor="#ff8733">ПРОВІДМІНЯТИ</a>
+
+	<div class="checkbox-wrapper-55">
+	  <label class="rocker rocker-small">
+	    <input id="gender" type="checkbox" checked>
+	    <span class="switch-left">Чоловічий</span>
+	    <span class="switch-right">Жіночий</span>
+	  </label>
+	</div>
+
+		<div class="column full center">
+		<a id="start" href="#" onClick='startVse()' class="edit" style="display: inline-block;margin-bottom: 10px; text-decoration: none; transition: all 0.16s ease 0s; border-style: solid; cursor: pointer; background-color: rgb(23, 23, 23); color: rgb(255, 255, 255); border-color: rgb(23, 23, 23); border-width: 2px; border-radius: 0px; padding: 13px 28px; line-height: 21px; text-transform: uppercase; font-weight: 600; font-size: 14px; letter-spacing: 3px;" data-hover-color="#ffffff" data-hover-bordercolor="#ff8733" onmouseover="this.setAttribute('data-style',this.style.cssText);if(this.getAttribute('data-hover-bordercolor')) this.style.borderColor=this.getAttribute('data-hover-bordercolor');if(this.getAttribute('data-hover-bgcolor')) this.style.backgroundColor=this.getAttribute('data-hover-bgcolor');if(this.getAttribute('data-hover-color')) this.style.color=this.getAttribute('data-hover-color');" onmouseout="this.setAttribute('style',this.getAttribute('data-style'));this.removeAttribute('data-style')" data-hover-bgcolor="#ff8733">ПРОВІДМІНЯТИ</a>
+		
 	</div>
 </div>
     
@@ -212,17 +321,17 @@ shevchenko.inVocative   // Провідміняти в кличному відм
 <div class="divTableHeading">
 <div class="divTableRow">
 <div class="divTableHead">Називний (хто/що?)</div>
-<div class="divTableHead">Родовий (кого/чого?)<button class="but_copy" onClick='CopyTo()'>Скопіювати</button></div>
-<div class="divTableHead">Давальний (кому/чому?)</div>
-<div class="divTableHead">Орудний (ким/чим?)</div>
-<div class="divTableHead">Місцевий (при кому/чому?)</div>
-<div class="divTableHead">Кличний відмінок</div>
+<div class="divTableHead"><p>Родовий</p><p><button class="button-49" role="button" onClick="CopyToClipboard('pibKogo')">Скопіювати</button></p></div>
+<div class="divTableHead"><p>Давальний</p><p><button class="button-49" role="button" onClick="CopyToClipboard('pibKomy')">Скопіювати</button></p></div>
+<div class="divTableHead"><p>Орудний</p><p><button class="button-49" role="button" onClick="CopyToClipboard('pibKym')">Скопіювати</button></p></div>
+<div class="divTableHead"><p>Місцевий</p><p><button class="button-49" role="button" onClick="CopyToClipboard('pibPryKomy')">Скопіювати</button></p></div>
+<div class="divTableHead"><p>Кличний</p><p><button class="button-49" role="button" onClick="CopyToClipboard('pibKly4nyj')">Скопіювати</button></p></div>
 </div>
 </div>
 <div class="divTableBody">
 <div class="divTableRow">
 <div class="divTableCell">
-<textarea id="pib" name="Text1" class="po_centry" style="display: block" cols="37" rows="30">
+<textarea id="pib" name="Text1" class="po_centry" style="display: block" cols="37" rows="18">
 НИКОЛАЙКО Олександр Борисович
 МАКАРОВ Дмитро Юрійович
 ГНИЛКО Віталій Андрійович
@@ -233,21 +342,21 @@ shevchenko.inVocative   // Провідміняти в кличному відм
 НЕСТЕРЕНКО Валентин Юрійович</textarea>	
 </div>
 <div class="divTableCell">
-<textarea id="pibKogo" name="Text2" class="po_centry" style="display: block" cols="37" rows="30"></textarea>
+<textarea id="pibKogo" name="Text2" class="po_centry" style="display: block" cols="37" rows="18"></textarea>
 </div>
 <!-- Давальний -->
 <div class="divTableCell">
-	<textarea id="pibKomy" name="Text3" class="po_centry" style="display: block" cols="37" rows="30"></textarea>
+	<textarea id="pibKomy" name="Text3" class="po_centry" style="display: block" cols="37" rows="18"></textarea>
 </div>
 <!-- Давальний кінець -->
 <div class="divTableCell">
-	<textarea id="pibKym" name="Text4" class="po_centry" style="display: block" cols="37" rows="30"></textarea>
+	<textarea id="pibKym" name="Text4" class="po_centry" style="display: block" cols="37" rows="18"></textarea>
 </div>
 <div class="divTableCell">
-	<textarea id="pibPryKomy" name="Text5" class="po_centry" style="display: block" cols="37" rows="30"></textarea>
+	<textarea id="pibPryKomy" name="Text5" class="po_centry" style="display: block" cols="37" rows="18"></textarea>
 </div>
 <div class="divTableCell">
-	<textarea id="pibKly4nyj" name="Text6" class="po_centry" style="display: block" cols="37" rows="30"></textarea>
+	<textarea id="pibKly4nyj" name="Text6" class="po_centry" style="display: block" cols="37" rows="18"></textarea>
 </div>
 
 
@@ -255,6 +364,155 @@ shevchenko.inVocative   // Провідміняти в кличному відм
 </div>
 </div>
     </div>
+
+
+<style>
+  .checkbox-wrapper-55 input[type="checkbox"] {
+    visibility: hidden;
+    display: none;
+  }
+
+  .checkbox-wrapper-55 *,
+  .checkbox-wrapper-55 ::after,
+  .checkbox-wrapper-55 ::before {
+    box-sizing: border-box;
+  }
+
+  .checkbox-wrapper-55 .rocker {
+    display: inline-block;
+    position: relative;
+    /*
+    SIZE OF SWITCH
+    ==============
+    All sizes are in em - therefore
+    changing the font-size here
+    will change the size of the switch.
+    See .rocker-small below as example.
+    */
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    color: #888;
+    width: 16em;
+    height: 5em;
+    overflow: hidden;
+    border-bottom: 0.5em solid #eee;
+  }
+
+  .checkbox-wrapper-55 .rocker-small {
+    font-size: 1.05em;
+  }
+
+  .checkbox-wrapper-55 .rocker::before {
+    content: "";
+    position: absolute;
+    top: 0.5em;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #999;
+    border: 0.5em solid #eee;
+    border-bottom: 0;
+  }
+
+  .checkbox-wrapper-55 .switch-left,
+  .checkbox-wrapper-55 .switch-right {
+    cursor: pointer;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.5em;
+    width: 7em;
+    transition: 0.2s;
+    user-select: none;
+  }
+
+  .checkbox-wrapper-55 .switch-left {
+    height: 2.4em;
+    width: 7.75em;
+    left: 0.85em;
+    bottom: 1.0em;
+    background-color: #ddd;
+    transform: rotate(15deg) skewX(15deg);
+  }
+
+  .checkbox-wrapper-55 .switch-right {
+    right: 0.5em;
+    bottom: 0;
+    background-color: #bd5757;
+    color: #fff;
+  }
+
+  .checkbox-wrapper-55 .switch-left::before,
+  .checkbox-wrapper-55 .switch-right::before {
+    content: "";
+    position: absolute;
+    width: 0.4em;
+    height: 2.45em;
+    bottom: -0.45em;
+    background-color: #ccc;
+    transform: skewY(-65deg);
+  }
+
+  .checkbox-wrapper-55 .switch-left::before {
+    left: -0.4em;
+  }
+
+  .checkbox-wrapper-55 .switch-right::before {
+    right: -0.375em;
+    background-color: transparent;
+    transform: skewY(65deg);
+  }
+
+  .checkbox-wrapper-55 input:checked + .switch-left {
+    background-color: #0084d0;
+    color: #fff;
+    bottom: 0px;
+    left: 0.5em;
+    height: 2.5em;
+    width: 8em;
+    transform: rotate(0deg) skewX(0deg);
+  }
+
+  .checkbox-wrapper-55 input:checked + .switch-left::before {
+    background-color: transparent;
+    width: 6.0833em;
+  }
+
+  .checkbox-wrapper-55 input:checked + .switch-left + .switch-right {
+    background-color: #ddd;
+    color: #888;
+    bottom: 1.0em;
+    right: 0.8em;
+    height: 2.4em;
+    width: 6.75em;
+    transform: rotate(-15deg) skewX(-15deg);
+  }
+
+  .checkbox-wrapper-55 input:checked + .switch-left + .switch-right::before {
+    background-color: #ccc;
+  }
+
+  /* Keyboard Users */
+  .checkbox-wrapper-55 input:focus + .switch-left {
+    color: #333;
+  }
+
+  .checkbox-wrapper-55 input:checked:focus + .switch-left {
+    color: #fff;
+  }
+
+  .checkbox-wrapper-55 input:focus + .switch-left + .switch-right {
+    color: #fff;
+  }
+
+  .checkbox-wrapper-55 input:checked:focus + .switch-left + .switch-right {
+    color: #333;
+  }
+</style>
+
 
 </body>
 	
