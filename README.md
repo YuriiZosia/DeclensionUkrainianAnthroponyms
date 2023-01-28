@@ -7,4 +7,4 @@
  * @author Oleksandr Tolochko <tooleks@gmail.com>
  * @license MIT
  * @copyright 2022 Oleksandr Tolochko <tooleks@gmail.com>
- * @see {@link git+https://github.com/tooleks/shevchenko-js.git}
+ * @see {@link git+https://github.com/tooleks/shevchenko-js.git }
