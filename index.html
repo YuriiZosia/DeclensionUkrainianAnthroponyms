@@ -1,6 +1,6 @@
 <html>
 <head><meta charset="utf-8">
-<title>Відмінювання українських антропонімів Чоловічі</title>
+<title>Відмінювання українських антропонімів</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="theme-color" content="#ffffff">
@@ -11,7 +11,7 @@
 
 <style>
 .form-group {
-	font-size: 22px;
+	font-size: 28px;
   margin-bottom: $form-group-margin-bottom;
 }
 .mr-2, {
@@ -96,7 +96,20 @@ div.comicGreen {
 .divTableBody { display: table-row-group;}
 </style>
 <script  type="text/javascript">
-
+		function CopyToClipboard(containerid) {
+		  if (document.selection) {
+		    var range = document.body.createTextRange();
+		    range.moveToElementText(document.getElementById(containerid));
+		    range.select().createTextRange();
+		    document.execCommand("copy");
+		  } else if (window.getSelection) {
+		    var range = document.createRange();
+		    range.selectNode(document.getElementById(containerid));
+		    window.getSelection().addRange(range);
+		    document.execCommand("copy");
+		    //alert("Text has been copied, now paste in the text-area")
+		  }
+		}
 		function startVse(){
 			document.getElementById('pibKomy').value = "";
 			document.getElementById('pibKogo').value = "";
@@ -180,11 +193,11 @@ shevchenko.inVocative   // Провідміняти в кличному відм
 
 <div class="row">
 	<div class="column full center">
-		<h1  style="margin-bottom: 5px;font-size: 40px;">Відмінювання (Чоловічий)</h1>
-		<div class="form-group"></label><label class="mr-2" title="Автоматичне визначення граматичного роду відбувається за ім'ям або по батькові."><input type="radio" id="male" name="gender" value="male" checked> Чоловічий <!----></label><label class="mr-2" title="Автоматичне визначення граматичного роду відбувається за ім'ям або по батькові."><input type="radio" id="female" name="gender" value="female"> Жіночий <!----></label><!--]--></div>
+		<h1  style="margin-bottom: 5px;font-size: 40px;">Відмінювання українських антропонімів</h1>
+		<div class="form-group"></label><label class="mr-2" title="Виберіть рід антропонімів"><input type="radio" id="male" name="gender" value="male" checked> Чоловічий <!----></label><label class="mr-2" title="Виберіть рід антропонімів"><input type="radio" id="female" name="gender" value="female"> Жіночий <!----></label><!--]--></div>
 		<p style="margin-top:20; font-size: 22px">Перед початком додайте список для відмінювання (називний)</p>
 		<p style="margin-top:20; font-size: 18px">@author <b>Юрій Зося</b> html+javascript+css YuraZosia@gmail.com</p>
-		<p style="margin-top:20; font-size: 18px">@author Oleksandr Tolochko shevchenko.js tooleks@gmail.com</p>
+		<p style="margin-top:20; font-size: 18px">@author <b>Oleksandr Tolochko</b> shevchenko.js tooleks@gmail.com</p>
 	</div>
 </div>
 <div class="row">
@@ -199,7 +212,7 @@ shevchenko.inVocative   // Провідміняти в кличному відм
 <div class="divTableHeading">
 <div class="divTableRow">
 <div class="divTableHead">Називний (хто/що?)</div>
-<div class="divTableHead">Родовий (кого/чого?)</div>
+<div class="divTableHead">Родовий (кого/чого?)<button class="but_copy" onClick='CopyTo()'>Скопіювати</button></div>
 <div class="divTableHead">Давальний (кому/чому?)</div>
 <div class="divTableHead">Орудний (ким/чим?)</div>
 <div class="divTableHead">Місцевий (при кому/чому?)</div>
