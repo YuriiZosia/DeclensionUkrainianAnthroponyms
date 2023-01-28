@@ -10,6 +10,32 @@
 </script>
 
 <style>
+.form-group {
+	font-size: 22px;
+  margin-bottom: $form-group-margin-bottom;
+}
+.mr-2, {
+    margin-right: 0.5rem!important;
+}
+label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+label {
+    cursor: default;
+}
+
+
+
+
+
+
+
+
 div.comicGreen {
   font-family: "Comic Sans MS", cursive, sans-serif;
   border: 2px solid #4F7849;
@@ -70,6 +96,7 @@ div.comicGreen {
 .divTableBody { display: table-row-group;}
 </style>
 <script  type="text/javascript">
+
 		function startVse(){
 			document.getElementById('pibKomy').value = "";
 			document.getElementById('pibKogo').value = "";
@@ -84,10 +111,18 @@ div.comicGreen {
 		}
 		function startVidminkiv(typVidminky){
 			var mas = document.getElementById('pib').value.split(String.fromCharCode(10));
+			//var gender_mas = document.getElementsByName('gender');
+				 if(document.getElementById('male').checked) {
+			 		gender_type = document.getElementById('male').value;
+			 	}
+			 	if(document.getElementById('female').checked) {
+			 		gender_type = document.getElementById('female').value;
+			 	}
+      //alert('Выбран '+gender_type+' radiobutton');
 			for(var i=0;i<mas.length;i++){
 				var masdd = mas[i].split(' ');
 				anthroponym={
-					gender: "male", // female
+					gender: gender_type, // female
 					lastName: masdd[0],		// прізвище
 					firstName: masdd[1],	// ім'я
 					middleName: masdd[2]	// по батькові
@@ -146,6 +181,7 @@ shevchenko.inVocative   // Провідміняти в кличному відм
 <div class="row">
 	<div class="column full center">
 		<h1  style="margin-bottom: 5px;font-size: 40px;">Відмінювання (Чоловічий)</h1>
+		<div class="form-group"></label><label class="mr-2" title="Автоматичне визначення граматичного роду відбувається за ім'ям або по батькові."><input type="radio" id="male" name="gender" value="male" checked> Чоловічий <!----></label><label class="mr-2" title="Автоматичне визначення граматичного роду відбувається за ім'ям або по батькові."><input type="radio" id="female" name="gender" value="female"> Жіночий <!----></label><!--]--></div>
 		<p style="margin-top:20; font-size: 22px">Перед початком додайте список для відмінювання (називний)</p>
 		<p style="margin-top:20; font-size: 18px">@author <b>Юрій Зося</b> html+javascript+css YuraZosia@gmail.com</p>
 		<p style="margin-top:20; font-size: 18px">@author Oleksandr Tolochko shevchenko.js tooleks@gmail.com</p>
@@ -174,13 +210,11 @@ shevchenko.inVocative   // Провідміняти в кличному відм
 <div class="divTableRow">
 <div class="divTableCell">
 <textarea id="pib" name="Text1" class="po_centry" style="display: block" cols="37" rows="30">
-РОЗЛАЧ Павло Іванович
 НИКОЛАЙКО Олександр Борисович
 МАКАРОВ Дмитро Юрійович
 ГНИЛКО Віталій Андрійович
 ТКАЧУК Ігор Дмитрович
 МАЦЮК Іван Танасійович
-ГІБЕЛІНДА Вячеслав Русланович
 КУКУЛ Андрій Іванович
 МАКСЕМЧУК Сергій Володимирович
 НЕСТЕРЕНКО Валентин Юрійович</textarea>	
