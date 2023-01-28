@@ -1,0 +1,214 @@
+<html>
+<head><meta charset="utf-8">
+<title>Відмінювання українських антропонімів Чоловічі</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff">
+<script type="text/javascript" src="shevchenko.min.js">
+	
+
+</script>
+
+<style>
+div.comicGreen {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  border: 2px solid #4F7849;
+  background-color: #EEEEEE;
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+}
+.divTable.comicGreen .divTableCell, .divTable.comicGreen .divTableHead {
+  border: 1px solid #4F7849;
+  padding: 3px 2px;
+}
+.divTable.comicGreen .divTableBody .divTableCell {
+  font-size: 19px;
+  font-weight: bold;
+  color: #4F7849;
+}
+.divTable.comicGreen .divTableHeading {
+  background: #4F7849;
+  background: -moz-linear-gradient(top, #7b9a76 0%, #60855b 66%, #4F7849 100%);
+  background: -webkit-linear-gradient(top, #7b9a76 0%, #60855b 66%, #4F7849 100%);
+  background: linear-gradient(to bottom, #7b9a76 0%, #60855b 66%, #4F7849 100%);
+  border-bottom: 1px solid #444444;
+}
+.divTable.comicGreen .divTableHeading .divTableHead {
+  font-size: 26px;
+  font-weight: bold;
+  color: #FFFFFF;
+  text-align: center;
+  border-left: 2px solid #D0E4F5;
+}
+.divTable.comicGreen .divTableHeading .divTableHead:first-child {
+  border-left: none;
+}
+
+.po_centry{
+	margin-left: auto;
+    margin-right: auto;
+}
+
+.comicGreen .tableFootStyle {
+  font-size: 21px;
+}
+/* DivTable.com */
+.divTable{ display: table; }
+.divTableRow { display: table-row; }
+.row {
+	width: 100%;
+	
+	text-align: center;
+	margin-left: auto;
+    margin-right: auto;
+}
+.divTableHeading { display: table-header-group;}
+.divTableCell, .divTableHead { display: table-cell;}
+.divTableHeading { display: table-header-group;}
+.divTableFoot { display: table-footer-group;}
+.divTableBody { display: table-row-group;}
+</style>
+<script  type="text/javascript">
+		function startVse(){
+			document.getElementById('pibKomy').value = "";
+			document.getElementById('pibKogo').value = "";
+			document.getElementById('pibKym').value = "";
+			document.getElementById('pibPryKomy').value = "";
+			document.getElementById('pibKly4nyj').value = "";
+			startVidminkiv("Родовий");
+			startVidminkiv("Давальний");
+			startVidminkiv("Орудний");
+			startVidminkiv("Місцевий");
+			startVidminkiv("Кличний");
+		}
+		function startVidminkiv(typVidminky){
+			var mas = document.getElementById('pib').value.split(String.fromCharCode(10));
+			for(var i=0;i<mas.length;i++){
+				var masdd = mas[i].split(' ');
+				anthroponym={
+					gender: "male", // female
+					lastName: masdd[0],		// прізвище
+					firstName: masdd[1],	// ім'я
+					middleName: masdd[2]	// по батькові
+					};
+				if (typVidminky == "Родовий") {
+					result = shevchenko.inAccusative(anthroponym);
+					var gotove = result["lastName"]+" "+result["firstName"]+" "+result["middleName"]+"\n";
+					document.getElementById('pibKogo').value += gotove
+				}
+				if (typVidminky == "Давальний") {
+					result = shevchenko.inDative(anthroponym);
+					var gotove = result["lastName"]+" "+result["firstName"]+" "+result["middleName"]+"\n";
+					document.getElementById('pibKomy').value += gotove
+				}
+				if (typVidminky == "Орудний") {
+					result = shevchenko.inAblative(anthroponym);
+					var gotove = result["lastName"]+" "+result["firstName"]+" "+result["middleName"]+"\n";
+					document.getElementById('pibKym').value += gotove
+				}
+				if (typVidminky == "Місцевий") {
+					result = shevchenko.inLocative(anthroponym);
+					var gotove = result["lastName"]+" "+result["firstName"]+" "+result["middleName"]+"\n";
+					document.getElementById('pibPryKomy').value += gotove
+				}
+				if (typVidminky == "Кличний") {
+					result = shevchenko.inVocative(anthroponym);
+					var gotove = result["lastName"]+" "+result["firstName"]+" "+result["middleName"]+"\n";
+					document.getElementById('pibKly4nyj').value += gotove
+				}
+			}
+		}
+	</script>
+</head>
+<!--
+API
+shevchenko.inNominative // Провідміняти в називному відмінку
+shevchenko.inGenitive	// Провідміняти в родовому відмінку
+shevchenko.inDative		// Провідміняти в давальному відмінку
+shevchenko.inAccusative // Провідміняти в знахідному відмінку
+shevchenko.inAblative   // Провідміняти в орудному відмінку
+shevchenko.inLocative   // Провідміняти в місцевому відмінку
+shevchenko.inVocative   // Провідміняти в кличному відмінку
+
+Граматичний відмінок		Прізвище	Ім'я	По батькові	
+Називний (хто/що?)			Пашко		Іван	Васильович	
+Родовий (кого/чого?)		Пашка		Івана	Васильовича	
+Давальний (кому/чому?)		Пашку		Івану	Васильовичу	
+Знахідний (кого/що?)		Пашка		Івана	Васильовича	
+Орудний (ким/чим?)			Пашком		Іваном	Васильовичем	
+Місцевий (при кому/чому?)	Пашкові	Іванові	Васильовичу	
+Кличний						Пашку	Іване	Васильовичу
+-->
+<body>
+
+
+<div class="row">
+	<div class="column full center">
+		<h1  style="margin-bottom: 5px;font-size: 40px;">Відмінювання (Чоловічий)</h1>
+		<p style="margin-top:20; font-size: 22px">Перед початком додайте список для відмінювання (називний)</p>
+		<p style="margin-top:20; font-size: 18px">@author <b>Юрій Зося</b> html+javascript+css YuraZosia@gmail.com</p>
+		<p style="margin-top:20; font-size: 18px">@author Oleksandr Tolochko shevchenko.js tooleks@gmail.com</p>
+	</div>
+</div>
+<div class="row">
+	<div class="column full center">
+		<a id="start" href="#" onClick='startVse()' class="edit" style="display: inline-block;margin-bottom: 40px; text-decoration: none; transition: all 0.16s ease 0s; border-style: solid; cursor: pointer; background-color: rgb(23, 23, 23); color: rgb(255, 255, 255); border-color: rgb(23, 23, 23); border-width: 2px; border-radius: 0px; padding: 13px 28px; line-height: 21px; text-transform: uppercase; font-weight: 600; font-size: 14px; letter-spacing: 3px;" data-hover-color="#ffffff" data-hover-bordercolor="#ff8733" onmouseover="this.setAttribute('data-style',this.style.cssText);if(this.getAttribute('data-hover-bordercolor')) this.style.borderColor=this.getAttribute('data-hover-bordercolor');if(this.getAttribute('data-hover-bgcolor')) this.style.backgroundColor=this.getAttribute('data-hover-bgcolor');if(this.getAttribute('data-hover-color')) this.style.color=this.getAttribute('data-hover-color');" onmouseout="this.setAttribute('style',this.getAttribute('data-style'));this.removeAttribute('data-style')" data-hover-bgcolor="#ff8733">ПРОВІДМІНЯТИ</a>
+	</div>
+</div>
+    
+    
+    <div class="po_centry">
+<div class="divTable comicGreen">
+<div class="divTableHeading">
+<div class="divTableRow">
+<div class="divTableHead">Називний (хто/що?)</div>
+<div class="divTableHead">Родовий (кого/чого?)</div>
+<div class="divTableHead">Давальний (кому/чому?)</div>
+<div class="divTableHead">Орудний (ким/чим?)</div>
+<div class="divTableHead">Місцевий (при кому/чому?)</div>
+<div class="divTableHead">Кличний відмінок</div>
+</div>
+</div>
+<div class="divTableBody">
+<div class="divTableRow">
+<div class="divTableCell">
+<textarea id="pib" name="Text1" class="po_centry" style="display: block" cols="37" rows="30">
+РОЗЛАЧ Павло Іванович
+НИКОЛАЙКО Олександр Борисович
+МАКАРОВ Дмитро Юрійович
+ГНИЛКО Віталій Андрійович
+ТКАЧУК Ігор Дмитрович
+МАЦЮК Іван Танасійович
+ГІБЕЛІНДА Вячеслав Русланович
+КУКУЛ Андрій Іванович
+МАКСЕМЧУК Сергій Володимирович
+НЕСТЕРЕНКО Валентин Юрійович</textarea>	
+</div>
+<div class="divTableCell">
+<textarea id="pibKogo" name="Text2" class="po_centry" style="display: block" cols="37" rows="30"></textarea>
+</div>
+<!-- Давальний -->
+<div class="divTableCell">
+	<textarea id="pibKomy" name="Text3" class="po_centry" style="display: block" cols="37" rows="30"></textarea>
+</div>
+<!-- Давальний кінець -->
+<div class="divTableCell">
+	<textarea id="pibKym" name="Text4" class="po_centry" style="display: block" cols="37" rows="30"></textarea>
+</div>
+<div class="divTableCell">
+	<textarea id="pibPryKomy" name="Text5" class="po_centry" style="display: block" cols="37" rows="30"></textarea>
+</div>
+<div class="divTableCell">
+	<textarea id="pibKly4nyj" name="Text6" class="po_centry" style="display: block" cols="37" rows="30"></textarea>
+</div>
+
+
+</div>
+</div>
+</div>
+    </div>
+
+</body>
+	
+</html>
