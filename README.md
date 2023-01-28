@@ -1,0 +1,2 @@
+# DeclensionUkrainianAnthroponyms
+ Відмінювання українських антропонімів
