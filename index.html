@@ -4,12 +4,235 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="theme-color" content="#ffffff">
-<script type="text/javascript" src="shevchenko.min.js">
-	
+<script type="text/javascript" src="shevchenko.min.js"></script>
+<script  type="text/javascript">
+		function CopyToClipboard(containerid) {
+		    if (window.getSelection) {
+		        if (window.getSelection().empty) { // Chrome
+		            window.getSelection().empty();
+		        } else if (window.getSelection().removeAllRanges) { // Firefox
+		            window.getSelection().removeAllRanges();
+		        }
+		    } else if (document.selection) { // IE?
+		        document.selection.empty();
+		    }
 
+		    if (document.selection) {
+		        var range = document.body.createTextRange();
+		        range.moveToElementText(document.getElementById(containerid));
+		        range.select().createTextRange();
+		        document.execCommand("copy");
+		    } else if (window.getSelection) {
+		        var range = document.createRange();
+		        range.selectNode(document.getElementById(containerid));
+		        window.getSelection().addRange(range);
+		        document.execCommand("copy");
+		    }
+		}
+
+		function startVse(){
+			document.getElementById('pibKomy').value = "";
+			document.getElementById('pibKogo').value = "";
+			document.getElementById('pibKym').value = "";
+			document.getElementById('pibPryKomy').value = "";
+			document.getElementById('pibKly4nyj').value = "";
+			startVidminkiv("Родовий");
+			startVidminkiv("Давальний");
+			startVidminkiv("Орудний");
+			startVidminkiv("Місцевий");
+			startVidminkiv("Кличний");
+		}
+		function startVidminkiv(typVidminky){
+			var mas = document.getElementById('pib').value.split(String.fromCharCode(10));
+			//var gender_mas = document.getElementsByName('gender');
+				 if(document.getElementById('gender').checked) {
+			 		gender_type = "male";
+			 	} else {gender_type = "female";}
+			 	//if(document.getElementById('female').checked) {
+			 		//gender_type = document.getElementById('female').value;
+			 	//}
+      //alert('Выбран '+gender_type+' radiobutton');
+			for(var i=0;i<mas.length;i++){
+				var masdd = mas[i].split(' ');
+				anthroponym={
+					gender: gender_type, // female
+					lastName: masdd[0],		// прізвище
+					firstName: masdd[1],	// ім'я
+					middleName: masdd[2]	// по батькові
+					};
+				if (typVidminky == "Родовий") {
+					result = shevchenko.inAccusative(anthroponym);
+					var gotove = result["lastName"]+" "+result["firstName"]+" "+result["middleName"]+"\n";
+					document.getElementById('pibKogo').value += gotove
+				}
+				if (typVidminky == "Давальний") {
+					result = shevchenko.inDative(anthroponym);
+					var gotove = result["lastName"]+" "+result["firstName"]+" "+result["middleName"]+"\n";
+					document.getElementById('pibKomy').value += gotove
+				}
+				if (typVidminky == "Орудний") {
+					result = shevchenko.inAblative(anthroponym);
+					var gotove = result["lastName"]+" "+result["firstName"]+" "+result["middleName"]+"\n";
+					document.getElementById('pibKym').value += gotove
+				}
+				if (typVidminky == "Місцевий") {
+					result = shevchenko.inLocative(anthroponym);
+					var gotove = result["lastName"]+" "+result["firstName"]+" "+result["middleName"]+"\n";
+					document.getElementById('pibPryKomy').value += gotove
+				}
+				if (typVidminky == "Кличний") {
+					result = shevchenko.inVocative(anthroponym);
+					var gotove = result["lastName"]+" "+result["firstName"]+" "+result["middleName"]+"\n";
+					document.getElementById('pibKly4nyj').value += gotove
+				}
+			}
+		}
 </script>
-
 <style>
+	.checkbox-wrapper-55 input[type="checkbox"] {
+		visibility: hidden;
+		display: none;
+	}
+
+	.checkbox-wrapper-55 *,
+	.checkbox-wrapper-55 ::after,
+	.checkbox-wrapper-55 ::before {
+		box-sizing: border-box;
+	}
+
+	.checkbox-wrapper-55 .rocker {
+		display: inline-block;
+		position: relative;
+		/*
+		SIZE OF SWITCH
+		==============
+		All sizes are in em - therefore
+		changing the font-size here
+		will change the size of the switch.
+		See .rocker-small below as example.
+		*/
+		font-size: 2em;
+		font-weight: bold;
+		text-align: center;
+		text-transform: uppercase;
+		color: #888;
+		width: 16em;
+		height: 5em;
+		overflow: hidden;
+		border-bottom: 0.5em solid #eee;
+	}
+
+	.checkbox-wrapper-55 .rocker-small {
+		font-size: 1.05em;
+	}
+
+	.checkbox-wrapper-55 .rocker::before {
+		content: "";
+		position: absolute;
+		top: 0.5em;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: #999;
+		border: 0.5em solid #eee;
+		border-bottom: 0;
+	}
+
+	.checkbox-wrapper-55 .switch-left,
+	.checkbox-wrapper-55 .switch-right {
+		cursor: pointer;
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 2.5em;
+		width: 7em;
+		transition: 0.2s;
+		user-select: none;
+	}
+
+	.checkbox-wrapper-55 .switch-left {
+		height: 2.4em;
+		width: 7.75em;
+		left: 0.85em;
+		bottom: 1.0em;
+		background-color: #ddd;
+		transform: rotate(15deg) skewX(15deg);
+	}
+
+	.checkbox-wrapper-55 .switch-right {
+		right: 0.5em;
+		bottom: 0;
+		background-color: #bd5757;
+		color: #fff;
+	}
+
+	.checkbox-wrapper-55 .switch-left::before,
+	.checkbox-wrapper-55 .switch-right::before {
+		content: "";
+		position: absolute;
+		width: 0.4em;
+		height: 2.45em;
+		bottom: -0.45em;
+		background-color: #ccc;
+		transform: skewY(-65deg);
+	}
+
+	.checkbox-wrapper-55 .switch-left::before {
+		left: -0.4em;
+	}
+
+	.checkbox-wrapper-55 .switch-right::before {
+		right: -0.375em;
+		background-color: transparent;
+		transform: skewY(65deg);
+	}
+
+	.checkbox-wrapper-55 input:checked + .switch-left {
+		background-color: #0084d0;
+		color: #fff;
+		bottom: 0px;
+		left: 0.5em;
+		height: 2.5em;
+		width: 8em;
+		transform: rotate(0deg) skewX(0deg);
+	}
+
+	.checkbox-wrapper-55 input:checked + .switch-left::before {
+		background-color: transparent;
+		width: 6.0833em;
+	}
+
+	.checkbox-wrapper-55 input:checked + .switch-left + .switch-right {
+		background-color: #ddd;
+		color: #888;
+		bottom: 1.0em;
+		right: 0.8em;
+		height: 2.4em;
+		width: 6.75em;
+		transform: rotate(-15deg) skewX(-15deg);
+	}
+
+	.checkbox-wrapper-55 input:checked + .switch-left + .switch-right::before {
+		background-color: #ccc;
+	}
+
+	/* Keyboard Users */
+	.checkbox-wrapper-55 input:focus + .switch-left {
+		color: #333;
+	}
+
+	.checkbox-wrapper-55 input:checked:focus + .switch-left {
+		color: #fff;
+	}
+
+	.checkbox-wrapper-55 input:focus + .switch-left + .switch-right {
+		color: #fff;
+	}
+
+	.checkbox-wrapper-55 input:checked:focus + .switch-left + .switch-right {
+		color: #333;
+	}
 .form-group {
 	font-size: 28px;
   margin-bottom: $form-group-margin-bottom;
@@ -28,14 +251,6 @@ label {
 label {
     cursor: default;
 }
-
-
-
-
-
-
-
-
 div.comicGreen {
   font-family: "Comic Sans MS", cursive, sans-serif;
   border: 2px solid #4F7849;
@@ -186,89 +401,7 @@ div.comicGreen {
   }
 }
 </style>
-<script  type="text/javascript">
-		function CopyToClipboard(containerid) {
-		    if (window.getSelection) {
-		        if (window.getSelection().empty) { // Chrome
-		            window.getSelection().empty();
-		        } else if (window.getSelection().removeAllRanges) { // Firefox
-		            window.getSelection().removeAllRanges();
-		        }
-		    } else if (document.selection) { // IE?
-		        document.selection.empty();
-		    }
 
-		    if (document.selection) {
-		        var range = document.body.createTextRange();
-		        range.moveToElementText(document.getElementById(containerid));
-		        range.select().createTextRange();
-		        document.execCommand("copy");
-		    } else if (window.getSelection) {
-		        var range = document.createRange();
-		        range.selectNode(document.getElementById(containerid));
-		        window.getSelection().addRange(range);
-		        document.execCommand("copy");
-		    }
-		}
-
-		function startVse(){
-			document.getElementById('pibKomy').value = "";
-			document.getElementById('pibKogo').value = "";
-			document.getElementById('pibKym').value = "";
-			document.getElementById('pibPryKomy').value = "";
-			document.getElementById('pibKly4nyj').value = "";
-			startVidminkiv("Родовий");
-			startVidminkiv("Давальний");
-			startVidminkiv("Орудний");
-			startVidminkiv("Місцевий");
-			startVidminkiv("Кличний");
-		}
-		function startVidminkiv(typVidminky){
-			var mas = document.getElementById('pib').value.split(String.fromCharCode(10));
-			//var gender_mas = document.getElementsByName('gender');
-				 if(document.getElementById('gender').checked) {
-			 		gender_type = "male";
-			 	} else {gender_type = "female";}
-			 	//if(document.getElementById('female').checked) {
-			 		//gender_type = document.getElementById('female').value;
-			 	//}
-      //alert('Выбран '+gender_type+' radiobutton');
-			for(var i=0;i<mas.length;i++){
-				var masdd = mas[i].split(' ');
-				anthroponym={
-					gender: gender_type, // female
-					lastName: masdd[0],		// прізвище
-					firstName: masdd[1],	// ім'я
-					middleName: masdd[2]	// по батькові
-					};
-				if (typVidminky == "Родовий") {
-					result = shevchenko.inAccusative(anthroponym);
-					var gotove = result["lastName"]+" "+result["firstName"]+" "+result["middleName"]+"\n";
-					document.getElementById('pibKogo').value += gotove
-				}
-				if (typVidminky == "Давальний") {
-					result = shevchenko.inDative(anthroponym);
-					var gotove = result["lastName"]+" "+result["firstName"]+" "+result["middleName"]+"\n";
-					document.getElementById('pibKomy').value += gotove
-				}
-				if (typVidminky == "Орудний") {
-					result = shevchenko.inAblative(anthroponym);
-					var gotove = result["lastName"]+" "+result["firstName"]+" "+result["middleName"]+"\n";
-					document.getElementById('pibKym').value += gotove
-				}
-				if (typVidminky == "Місцевий") {
-					result = shevchenko.inLocative(anthroponym);
-					var gotove = result["lastName"]+" "+result["firstName"]+" "+result["middleName"]+"\n";
-					document.getElementById('pibPryKomy').value += gotove
-				}
-				if (typVidminky == "Кличний") {
-					result = shevchenko.inVocative(anthroponym);
-					var gotove = result["lastName"]+" "+result["firstName"]+" "+result["middleName"]+"\n";
-					document.getElementById('pibKly4nyj').value += gotove
-				}
-			}
-		}
-	</script>
 </head>
 <!--
 API
@@ -290,8 +423,6 @@ shevchenko.inVocative   // Провідміняти в кличному відм
 Кличний						Пашку	Іване	Васильовичу
 -->
 <body>
-
-
 <div class="row">
 	<div class="column full center">
 		<h1  style="margin-bottom: 5px;font-size: 40px;">Відмінювання українських антропонімів</h1>
@@ -300,7 +431,6 @@ shevchenko.inVocative   // Провідміняти в кличному відм
 	</div>
 </div>
 <div class="row">
-
 	<div class="checkbox-wrapper-55">
 	  <label class="rocker rocker-small">
 	    <input id="gender" type="checkbox" checked>
@@ -310,12 +440,11 @@ shevchenko.inVocative   // Провідміняти в кличному відм
 	</div>
 
 		<div class="column full center">
-		<a id="start" href="#" onClick='startVse()' class="edit" style="display: inline-block;margin-bottom: 10px; text-decoration: none; transition: all 0.16s ease 0s; border-style: solid; cursor: pointer; background-color: rgb(23, 23, 23); color: rgb(255, 255, 255); border-color: rgb(23, 23, 23); border-width: 2px; border-radius: 0px; padding: 13px 28px; line-height: 21px; text-transform: uppercase; font-weight: 600; font-size: 14px; letter-spacing: 3px;" data-hover-color="#ffffff" data-hover-bordercolor="#ff8733" onmouseover="this.setAttribute('data-style',this.style.cssText);if(this.getAttribute('data-hover-bordercolor')) this.style.borderColor=this.getAttribute('data-hover-bordercolor');if(this.getAttribute('data-hover-bgcolor')) this.style.backgroundColor=this.getAttribute('data-hover-bgcolor');if(this.getAttribute('data-hover-color')) this.style.color=this.getAttribute('data-hover-color');" onmouseout="this.setAttribute('style',this.getAttribute('data-style'));this.removeAttribute('data-style')" data-hover-bgcolor="#ff8733">ПРОВІДМІНЯТИ</a>
+		<a id="start" href="#" onClick='startVse()' class="edit" style="display: inline-block;margin-bottom: 10px; text-decoration: none; transition: all 0.16s ease 0s; border-style: solid; cursor: pointer; background-color: rgb(23, 23, 23); color: rgb(255, 255, 255); border-color: rgb(23, 23, 23); border-width: 2px; border-radius: 0px; padding: 13px 28px; line-height: 21px; text-transform: uppercase; font-weight: 600; font-size: 18px; letter-spacing: 3px;" data-hover-color="#ffffff" data-hover-bordercolor="#ff8733" onmouseover="this.setAttribute('data-style',this.style.cssText);if(this.getAttribute('data-hover-bordercolor')) this.style.borderColor=this.getAttribute('data-hover-bordercolor');if(this.getAttribute('data-hover-bgcolor')) this.style.backgroundColor=this.getAttribute('data-hover-bgcolor');if(this.getAttribute('data-hover-color')) this.style.color=this.getAttribute('data-hover-color');" onmouseout="this.setAttribute('style',this.getAttribute('data-style'));this.removeAttribute('data-style')" data-hover-bgcolor="#ff8733">ПРОВІДМІНЯТИ</a>
 		
 	</div>
 </div>
-    
-    <div class="po_centry">
+<div class="po_centry">
 <div class="divTable comicGreen">
 <div class="divTableHeading">
 <div class="divTableRow">
@@ -357,162 +486,9 @@ shevchenko.inVocative   // Провідміняти в кличному відм
 <div class="divTableCell">
 	<textarea id="pibKly4nyj" name="Text6" class="po_centry" style="display: block" cols="37" rows="18"></textarea>
 </div>
-
-
 </div>
 </div>
 </div>
-    </div>
-
-
-<style>
-  .checkbox-wrapper-55 input[type="checkbox"] {
-    visibility: hidden;
-    display: none;
-  }
-
-  .checkbox-wrapper-55 *,
-  .checkbox-wrapper-55 ::after,
-  .checkbox-wrapper-55 ::before {
-    box-sizing: border-box;
-  }
-
-  .checkbox-wrapper-55 .rocker {
-    display: inline-block;
-    position: relative;
-    /*
-    SIZE OF SWITCH
-    ==============
-    All sizes are in em - therefore
-    changing the font-size here
-    will change the size of the switch.
-    See .rocker-small below as example.
-    */
-    font-size: 2em;
-    font-weight: bold;
-    text-align: center;
-    text-transform: uppercase;
-    color: #888;
-    width: 16em;
-    height: 5em;
-    overflow: hidden;
-    border-bottom: 0.5em solid #eee;
-  }
-
-  .checkbox-wrapper-55 .rocker-small {
-    font-size: 1.05em;
-  }
-
-  .checkbox-wrapper-55 .rocker::before {
-    content: "";
-    position: absolute;
-    top: 0.5em;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #999;
-    border: 0.5em solid #eee;
-    border-bottom: 0;
-  }
-
-  .checkbox-wrapper-55 .switch-left,
-  .checkbox-wrapper-55 .switch-right {
-    cursor: pointer;
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 2.5em;
-    width: 7em;
-    transition: 0.2s;
-    user-select: none;
-  }
-
-  .checkbox-wrapper-55 .switch-left {
-    height: 2.4em;
-    width: 7.75em;
-    left: 0.85em;
-    bottom: 1.0em;
-    background-color: #ddd;
-    transform: rotate(15deg) skewX(15deg);
-  }
-
-  .checkbox-wrapper-55 .switch-right {
-    right: 0.5em;
-    bottom: 0;
-    background-color: #bd5757;
-    color: #fff;
-  }
-
-  .checkbox-wrapper-55 .switch-left::before,
-  .checkbox-wrapper-55 .switch-right::before {
-    content: "";
-    position: absolute;
-    width: 0.4em;
-    height: 2.45em;
-    bottom: -0.45em;
-    background-color: #ccc;
-    transform: skewY(-65deg);
-  }
-
-  .checkbox-wrapper-55 .switch-left::before {
-    left: -0.4em;
-  }
-
-  .checkbox-wrapper-55 .switch-right::before {
-    right: -0.375em;
-    background-color: transparent;
-    transform: skewY(65deg);
-  }
-
-  .checkbox-wrapper-55 input:checked + .switch-left {
-    background-color: #0084d0;
-    color: #fff;
-    bottom: 0px;
-    left: 0.5em;
-    height: 2.5em;
-    width: 8em;
-    transform: rotate(0deg) skewX(0deg);
-  }
-
-  .checkbox-wrapper-55 input:checked + .switch-left::before {
-    background-color: transparent;
-    width: 6.0833em;
-  }
-
-  .checkbox-wrapper-55 input:checked + .switch-left + .switch-right {
-    background-color: #ddd;
-    color: #888;
-    bottom: 1.0em;
-    right: 0.8em;
-    height: 2.4em;
-    width: 6.75em;
-    transform: rotate(-15deg) skewX(-15deg);
-  }
-
-  .checkbox-wrapper-55 input:checked + .switch-left + .switch-right::before {
-    background-color: #ccc;
-  }
-
-  /* Keyboard Users */
-  .checkbox-wrapper-55 input:focus + .switch-left {
-    color: #333;
-  }
-
-  .checkbox-wrapper-55 input:checked:focus + .switch-left {
-    color: #fff;
-  }
-
-  .checkbox-wrapper-55 input:focus + .switch-left + .switch-right {
-    color: #fff;
-  }
-
-  .checkbox-wrapper-55 input:checked:focus + .switch-left + .switch-right {
-    color: #333;
-  }
-</style>
-
-
+</div>
 </body>
-	
 </html>
