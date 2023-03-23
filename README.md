@@ -1,5 +1,5 @@
 # Відмінювання українських антропонімів
-<p><h2><a href="https://github.com/YuriiZosia/DeclensionUkrainianAnthroponyms/archive/refs/heads/main.zip">СКАЧАТИ</a></h2></p>
+<p><h2><a href="https://github.com/YuriiZosia/DeclensionUkrainianAnthroponyms/archive/refs/heads/main.zip">ЗАВАНТАЖИТИ</a></h2></p>
  <p>Оболочка на базі HTML, CSS, JavaScript by <b>Yurii Zosia</b></p>
 
  <p></p>
